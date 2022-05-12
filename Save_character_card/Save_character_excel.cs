@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Office.Interop.Excel;
 
 
 namespace Character_design
@@ -22,6 +23,7 @@ namespace Character_design
         {
 
         }
+
 
 
         private Save_character_excel()
