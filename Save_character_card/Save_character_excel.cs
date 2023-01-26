@@ -65,7 +65,7 @@ namespace Character_design
                     Character_card.Cells[4, 4].Value = Character.GetInstance().Karma.ToString();
                     Character_card.Cells[5, 2].Value = Character.GetInstance().Range.Get_range_name();
                     Character_card.Cells[5, 4].Value = Character.GetInstance().Experience_left.ToString();
-                    Character_card.Cells[16, 2].Value = Character.GetInstance().Name;
+                    Character_card.Cells[2, 16].Value = Character.GetInstance().Name;
 
                     // Заполняем поля атрибутов
                     Character_card.Cells[09, 3].Value = Character.GetInstance().Strength.Get_atribute_score().ToString();
@@ -146,7 +146,7 @@ namespace Character_design
                    
                     if (Character.GetInstance().Skills_with_points.Count > 0)
                     {
-                        row_index = 6;
+                        row_index = 5;
                         foreach (Skill_Class skill in Character.GetInstance().Skills_with_points)
                         {
                             if (row_index < 21)
@@ -156,7 +156,7 @@ namespace Character_design
                             }
                             else
                             {
-                                row_index = 6;
+                                row_index = 5;
                                 skill_coloumn_num = 22;
                                 skill_score_coloumn_num = 25;
                             }
@@ -171,7 +171,7 @@ namespace Character_design
                     {
                         skill_coloumn_num = 16;
                         skill_score_coloumn_num = 17;
-                        row_index = 6;
+                        row_index = 5;
                         foreach (Force_skill_class skill in Character.GetInstance().Force_skills_with_points)
                         {
                             Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
