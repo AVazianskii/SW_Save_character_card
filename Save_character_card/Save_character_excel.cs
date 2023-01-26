@@ -66,7 +66,7 @@ namespace Character_design
                     Character_card.Cells[4, 4].Value = Character.GetInstance().Karma.ToString();
                     Character_card.Cells[5, 2].Value = Character.GetInstance().Range.Get_range_name();
                     Character_card.Cells[5, 4].Value = Character.GetInstance().Experience_left.ToString();
-                    Character_card.Cells[2, 16].Value = Character.GetInstance().Name;
+                    Character_card.Cells[2, 15].Value = Character.GetInstance().Name;
 
                     // Заполняем поля атрибутов
                     Character_card.Cells[09, 3].Value = Character.GetInstance().Strength.Get_atribute_score().ToString();
@@ -152,14 +152,14 @@ namespace Character_design
                         {
                             if (row_index < 21)
                             {
-                                skill_coloumn_num = 18;
-                                skill_score_coloumn_num = 21;
+                                skill_coloumn_num = 17;
+                                skill_score_coloumn_num = 18;
                             }
                             else
                             {
                                 row_index = 5;
-                                skill_coloumn_num = 22;
-                                skill_score_coloumn_num = 25;
+                                skill_coloumn_num = 19;
+                                skill_score_coloumn_num = 20;
                             }
                             Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
                             Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
@@ -170,8 +170,8 @@ namespace Character_design
                     // Заполняем поля навыков Силы
                     if (Character.GetInstance().Force_skills_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 16;
-                        skill_score_coloumn_num = 17;
+                        skill_coloumn_num = 15;
+                        skill_score_coloumn_num = 16;
                         row_index = 5;
                         foreach (Force_skill_class skill in Character.GetInstance().Force_skills_with_points)
                         {
@@ -184,7 +184,7 @@ namespace Character_design
                     // Заполняем положительные особенности
                     if (Character.GetInstance().Positive_features_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 16;
+                        skill_coloumn_num = 15;
                         row_index = 23;
                         foreach (All_feature_template feature in Character.GetInstance().Positive_features_with_points)
                         {
@@ -196,7 +196,7 @@ namespace Character_design
                     // Заполняем отрицательные особенности
                     if (Character.GetInstance().Negative_features_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 21;
+                        skill_coloumn_num = 18;
                         row_index = 23;
                         foreach (All_feature_template feature in Character.GetInstance().Negative_features_with_points)
                         {
