@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using OfficeOpenXml;
+using Spire.Xls;
 using SW_Character_creation;
 
 
@@ -104,7 +105,7 @@ namespace Character_design
                     Character_card.Cells[17, 10].Value = Character.GetInstance().Medium_wound_penalty.ToString();
                     Character_card.Cells[12, 11].Value = Character.GetInstance().Tough_wound_lvl.ToString();
                     Character_card.Cells[16, 11].Value = Character.GetInstance().Tough_wound_penalty.ToString();
-                    Character_card.Cells[14, 12].Value = Character.GetInstance().Scratch_lvl.ToString();
+                    Character_card.Cells[14, 12].Value = Character.GetInstance().Mortal_wound_lvl.ToString();
 
                     // Заполняем расчитанные боевые параметры
                     Character_card.Cells[11, 14].Value = Character.GetInstance().Reaction.ToString();
@@ -205,7 +206,12 @@ namespace Character_design
                     }
 
                     package.Save();
-                    //package.SaveAs();
+                    
+                    Workbook workbook = new Workbook();
+                    workbook.LoadFromFile(character_file);
+                    workbook.SaveToFile(character_directory + $"\\{Character.GetInstance().Name}.pdf", Spire.Xls.FileFormat.PDF);
+                    //package.SaveAs(character_directory + $"\\{Character.GetInstance().Name}" + ".pdf");
+
                 }
             }
             else
