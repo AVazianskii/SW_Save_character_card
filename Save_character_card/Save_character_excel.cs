@@ -70,13 +70,13 @@ namespace Character_design
 
                     // Заполняем поля атрибутов
                     Character_card.Cells[09, 3].Value = Character.GetInstance().Strength.Get_atribute_score().ToString();
-                    Character_card.Cells[10, 3].Value = Character.GetInstance().Stamina.Get_atribute_score().ToString();
-                    Character_card.Cells[11, 3].Value = Character.GetInstance().Agility.Get_atribute_score().ToString();
-                    Character_card.Cells[12, 3].Value = Character.GetInstance().Quickness.Get_atribute_score().ToString();
-                    Character_card.Cells[13, 3].Value = Character.GetInstance().Intelligence.Get_atribute_score().ToString();
-                    Character_card.Cells[14, 3].Value = Character.GetInstance().Perception.Get_atribute_score().ToString();
-                    Character_card.Cells[15, 3].Value = Character.GetInstance().Charm.Get_atribute_score().ToString();
-                    Character_card.Cells[16, 3].Value = Character.GetInstance().Willpower.Get_atribute_score().ToString();
+                    Character_card.Cells[11, 3].Value = Character.GetInstance().Stamina.Get_atribute_score().ToString();
+                    Character_card.Cells[13, 3].Value = Character.GetInstance().Agility.Get_atribute_score().ToString();
+                    Character_card.Cells[15, 3].Value = Character.GetInstance().Quickness.Get_atribute_score().ToString();
+                    Character_card.Cells[17, 3].Value = Character.GetInstance().Intelligence.Get_atribute_score().ToString();
+                    Character_card.Cells[19, 3].Value = Character.GetInstance().Perception.Get_atribute_score().ToString();
+                    Character_card.Cells[21, 3].Value = Character.GetInstance().Charm.Get_atribute_score().ToString();
+                    Character_card.Cells[23, 3].Value = Character.GetInstance().Willpower.Get_atribute_score().ToString();
 
                     // Заполняем поля боевых параметров
                     foreach (Skill_Class skill in Character.GetInstance().Skills)
@@ -116,10 +116,10 @@ namespace Character_design
                     Character_card.Cells[21, 14].Value = Character.GetInstance().Concentration.ToString();
 
                     // Заполняем боевые формы
-                    
+                    row_index = 41;
                     if (Character.GetInstance().Combat_sequences_with_points.Count > 0)
                     {
-                        row_index = 36;
+                        
                         foreach (Abilities_sequence_template sequence in Character.GetInstance().Combat_sequences_with_points)
                         {
                             Character_card.Cells[row_index, 08].Value = sequence.Name;
@@ -133,7 +133,6 @@ namespace Character_design
                     {
                         if (Character.GetInstance().Force_sequences_with_points.Count > 0)
                         {
-                            row_index = 36;
                             foreach (Abilities_sequence_template sequence in Character.GetInstance().Force_sequences_with_points)
                             {
                                 Character_card.Cells[row_index, 08].Value = sequence.Name;
@@ -150,16 +149,16 @@ namespace Character_design
                         row_index = 5;
                         foreach (Skill_Class skill in Character.GetInstance().Skills_with_points)
                         {
-                            if (row_index < 21)
+                            if (row_index < 23)
                             {
                                 skill_coloumn_num = 17;
-                                skill_score_coloumn_num = 18;
+                                skill_score_coloumn_num = 19;
                             }
                             else
                             {
                                 row_index = 5;
-                                skill_coloumn_num = 19;
-                                skill_score_coloumn_num = 20;
+                                skill_coloumn_num = 20;
+                                skill_score_coloumn_num = 21;
                             }
                             Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
                             Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
@@ -185,7 +184,7 @@ namespace Character_design
                     if (Character.GetInstance().Positive_features_with_points.Count > 0)
                     {
                         skill_coloumn_num = 15;
-                        row_index = 23;
+                        row_index = 26;
                         foreach (All_feature_template feature in Character.GetInstance().Positive_features_with_points)
                         {
                             Character_card.Cells[row_index, skill_coloumn_num].Value = feature.Name;
@@ -197,7 +196,7 @@ namespace Character_design
                     if (Character.GetInstance().Negative_features_with_points.Count > 0)
                     {
                         skill_coloumn_num = 18;
-                        row_index = 23;
+                        row_index = 26;
                         foreach (All_feature_template feature in Character.GetInstance().Negative_features_with_points)
                         {
                             Character_card.Cells[row_index, skill_coloumn_num].Value = feature.Name;
