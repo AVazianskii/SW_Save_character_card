@@ -50,21 +50,13 @@ namespace Character_design
                 }
                 File.Copy(player_card_template, character_file, true);
 
-                /*
-                Excel.Application exl_app = new Excel.Application();
-                Excel.Workbook exl_book = exl_app.Workbooks.Open(character_file);
-                Excel.Worksheet Character_card = exl_book.Sheets[1];
-
-                Character_card.Cells[2, 1].Value = Character.GetInstance().Name;
-
-                exl_book.Close(true);
-                exl_app.Quit(); */
-                //System.Runtime.InteropServices.Marshal.FinalReleaseComObject(exl_app);
-
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
                 using (var package = new ExcelPackage(new FileInfo(character_file)))
                 {
+                    byte row_index = 0;
+                    byte skill_coloumn_num = 0;
+                    byte skill_score_coloumn_num = 0;
                     // Заполняем поле общей информации о персонаже
                     ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
                     Character_card.Cells[2, 1].Value = Character.GetInstance().Name + ", " + Character.GetInstance().Sex;
@@ -73,6 +65,7 @@ namespace Character_design
                     Character_card.Cells[4, 4].Value = Character.GetInstance().Karma.ToString();
                     Character_card.Cells[5, 2].Value = Character.GetInstance().Range.Get_range_name();
                     Character_card.Cells[5, 4].Value = Character.GetInstance().Experience_left.ToString();
+                    Character_card.Cells[16, 2].Value = Character.GetInstance().Name;
 
                     // Заполняем поля атрибутов
                     Character_card.Cells[09, 3].Value = Character.GetInstance().Strength.Get_atribute_score().ToString();
@@ -121,24 +114,95 @@ namespace Character_design
                     Character_card.Cells[19, 14].Value = Character.GetInstance().Watchfullness.ToString();
                     Character_card.Cells[21, 14].Value = Character.GetInstance().Concentration.ToString();
 
-                    // Заполняем боевые формы и формы Силы
-                    byte i = 0;
-                    foreach (Abilities_sequence_template sequence in Character.GetInstance().Combat_sequences_with_points)
+                    // Заполняем боевые формы
+                    
+                    if (Character.GetInstance().Combat_sequences_with_points.Count > 0)
                     {
-                        Character_card.Cells[36 + i, 08].Value = sequence.Name;
-                        Character_card.Cells[36 + i, 13].Value = sequence.Level;
-                        i = (byte)(i + 1);
-                    }
-                    if (Character.GetInstance().Forceuser)
-                    {
-                        foreach (Abilities_sequence_template sequence in Character.GetInstance().Force_sequences_with_points)
+                        row_index = 36;
+                        foreach (Abilities_sequence_template sequence in Character.GetInstance().Combat_sequences_with_points)
                         {
-                            Character_card.Cells[36 + i, 08].Value = sequence.Name;
-                            Character_card.Cells[36 + i, 13].Value = sequence.Level;
-                            i = (byte)(i + 1);
+                            Character_card.Cells[row_index, 08].Value = sequence.Name;
+                            Character_card.Cells[row_index, 13].Value = sequence.Level;
+                            row_index = (byte)(row_index + 1);
                         }
                     }
-                    
+
+                    // Заполняем формы Силы
+                    if (Character.GetInstance().Forceuser)
+                    {
+                        if (Character.GetInstance().Force_sequences_with_points.Count > 0)
+                        {
+                            row_index = 36;
+                            foreach (Abilities_sequence_template sequence in Character.GetInstance().Force_sequences_with_points)
+                            {
+                                Character_card.Cells[row_index, 08].Value = sequence.Name;
+                                Character_card.Cells[row_index, 13].Value = sequence.Level;
+                                row_index = (byte)(row_index + 1);
+                            }
+                        }
+                    }
+
+                    // Заполняем поля навыков
+                   
+                    if (Character.GetInstance().Skills_with_points.Count > 0)
+                    {
+                        row_index = 6;
+                        foreach (Skill_Class skill in Character.GetInstance().Skills_with_points)
+                        {
+                            if (row_index < 21)
+                            {
+                                skill_coloumn_num = 18;
+                                skill_score_coloumn_num = 21;
+                            }
+                            else
+                            {
+                                row_index = 6;
+                                skill_coloumn_num = 22;
+                                skill_score_coloumn_num = 25;
+                            }
+                            Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
+                            Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
+                            row_index = (byte)(row_index + 1);
+                        }
+                    }
+
+                    // Заполняем поля навыков Силы
+                    if (Character.GetInstance().Force_skills_with_points.Count > 0)
+                    {
+                        skill_coloumn_num = 16;
+                        skill_score_coloumn_num = 17;
+                        row_index = 6;
+                        foreach (Force_skill_class skill in Character.GetInstance().Force_skills_with_points)
+                        {
+                            Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
+                            Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
+                            row_index = (byte)(row_index + 1);
+                        }
+                    }
+
+                    // Заполняем положительные особенности
+                    if (Character.GetInstance().Positive_features_with_points.Count > 0)
+                    {
+                        skill_coloumn_num = 16;
+                        row_index = 23;
+                        foreach (All_feature_template feature in Character.GetInstance().Positive_features_with_points)
+                        {
+                            Character_card.Cells[row_index, skill_coloumn_num].Value = feature.Name;
+                            row_index = (byte)(row_index + 1);
+                        }
+                    }
+
+                    // Заполняем отрицательные особенности
+                    if (Character.GetInstance().Negative_features_with_points.Count > 0)
+                    {
+                        skill_coloumn_num = 21;
+                        row_index = 23;
+                        foreach (All_feature_template feature in Character.GetInstance().Negative_features_with_points)
+                        {
+                            Character_card.Cells[row_index, skill_coloumn_num].Value = feature.Name;
+                            row_index = (byte)(row_index + 1);
+                        }
+                    }
 
                     package.Save();
                     //package.SaveAs();
