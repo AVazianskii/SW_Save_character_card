@@ -97,23 +97,23 @@ namespace Character_design
                     }
 
                     // Заполняем поля пирамиды ранений и штрафов за них
-                    Character_card.Cells[09, 08].Value = Character.GetInstance().Scratch_lvl.ToString();
-                    Character_card.Cells[19, 08].Value = Character.GetInstance().Scratch_penalty.ToString();
-                    Character_card.Cells[10, 09].Value = Character.GetInstance().Light_wound_lvl.ToString();
-                    Character_card.Cells[18, 09].Value = Character.GetInstance().Light_wound_penalty.ToString();
-                    Character_card.Cells[11, 10].Value = Character.GetInstance().Medium_wound_lvl.ToString();
-                    Character_card.Cells[17, 10].Value = Character.GetInstance().Medium_wound_penalty.ToString();
-                    Character_card.Cells[12, 11].Value = Character.GetInstance().Tough_wound_lvl.ToString();
-                    Character_card.Cells[16, 11].Value = Character.GetInstance().Tough_wound_penalty.ToString();
-                    Character_card.Cells[14, 12].Value = Character.GetInstance().Mortal_wound_lvl.ToString();
+                    Character_card.Cells[10, 09].Value = Character.GetInstance().Scratch_lvl.ToString();
+                    Character_card.Cells[19, 09].Value = Character.GetInstance().Scratch_penalty.ToString();
+                    Character_card.Cells[11, 10].Value = Character.GetInstance().Light_wound_lvl.ToString();
+                    Character_card.Cells[18, 10].Value = Character.GetInstance().Light_wound_penalty.ToString();
+                    Character_card.Cells[12, 11].Value = Character.GetInstance().Medium_wound_lvl.ToString();
+                    Character_card.Cells[17, 11].Value = Character.GetInstance().Medium_wound_penalty.ToString();
+                    Character_card.Cells[13, 12].Value = Character.GetInstance().Tough_wound_lvl.ToString();
+                    Character_card.Cells[16, 12].Value = Character.GetInstance().Tough_wound_penalty.ToString();
+                    Character_card.Cells[14, 13].Value = Character.GetInstance().Mortal_wound_lvl.ToString();
 
                     // Заполняем расчитанные боевые параметры
-                    Character_card.Cells[11, 14].Value = Character.GetInstance().Reaction.ToString();
-                    Character_card.Cells[13, 14].Value = Character.GetInstance().Armor.ToString();
-                    Character_card.Cells[15, 14].Value = Character.GetInstance().Force_resistance.ToString();
-                    Character_card.Cells[17, 14].Value = Character.GetInstance().Hideness.ToString();
-                    Character_card.Cells[19, 14].Value = Character.GetInstance().Watchfullness.ToString();
-                    Character_card.Cells[21, 14].Value = Character.GetInstance().Concentration.ToString();
+                    Character_card.Cells[11, 15].Value = Character.GetInstance().Reaction.ToString();
+                    Character_card.Cells[13, 15].Value = Character.GetInstance().Armor.ToString();
+                    Character_card.Cells[15, 15].Value = Character.GetInstance().Force_resistance.ToString();
+                    Character_card.Cells[17, 15].Value = Character.GetInstance().Hideness.ToString();
+                    Character_card.Cells[19, 15].Value = Character.GetInstance().Watchfullness.ToString();
+                    Character_card.Cells[21, 15].Value = Character.GetInstance().Concentration.ToString();
 
                     // Заполняем боевые формы
                     row_index = 41;
@@ -123,7 +123,7 @@ namespace Character_design
                         foreach (Abilities_sequence_template sequence in Character.GetInstance().Combat_sequences_with_points)
                         {
                             Character_card.Cells[row_index, 08].Value = sequence.Name;
-                            Character_card.Cells[row_index, 13].Value = sequence.Level;
+                            Character_card.Cells[row_index, 14].Value = sequence.Level;
                             row_index = (byte)(row_index + 1);
                         }
                     }
@@ -136,7 +136,7 @@ namespace Character_design
                             foreach (Abilities_sequence_template sequence in Character.GetInstance().Force_sequences_with_points)
                             {
                                 Character_card.Cells[row_index, 08].Value = sequence.Name;
-                                Character_card.Cells[row_index, 13].Value = sequence.Level;
+                                Character_card.Cells[row_index, 14].Value = sequence.Level;
                                 row_index = (byte)(row_index + 1);
                             }
                         }
@@ -151,14 +151,14 @@ namespace Character_design
                         {
                             if (row_index < 23)
                             {
-                                skill_coloumn_num = 17;
-                                skill_score_coloumn_num = 19;
+                                skill_coloumn_num = 18;
+                                skill_score_coloumn_num = 20;
                             }
                             else
                             {
                                 row_index = 5;
-                                skill_coloumn_num = 20;
-                                skill_score_coloumn_num = 21;
+                                skill_coloumn_num = 21;
+                                skill_score_coloumn_num = 22;
                             }
                             Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
                             Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
@@ -169,8 +169,8 @@ namespace Character_design
                     // Заполняем поля навыков Силы
                     if (Character.GetInstance().Force_skills_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 15;
-                        skill_score_coloumn_num = 16;
+                        skill_coloumn_num = 16;
+                        skill_score_coloumn_num = 17;
                         row_index = 5;
                         foreach (Force_skill_class skill in Character.GetInstance().Force_skills_with_points)
                         {
@@ -183,7 +183,7 @@ namespace Character_design
                     // Заполняем положительные особенности
                     if (Character.GetInstance().Positive_features_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 15;
+                        skill_coloumn_num = 16;
                         row_index = 26;
                         foreach (All_feature_template feature in Character.GetInstance().Positive_features_with_points)
                         {
@@ -195,7 +195,7 @@ namespace Character_design
                     // Заполняем отрицательные особенности
                     if (Character.GetInstance().Negative_features_with_points.Count > 0)
                     {
-                        skill_coloumn_num = 18;
+                        skill_coloumn_num = 19;
                         row_index = 26;
                         foreach (All_feature_template feature in Character.GetInstance().Negative_features_with_points)
                         {
@@ -209,8 +209,6 @@ namespace Character_design
                     Workbook workbook = new Workbook();
                     workbook.LoadFromFile(character_file);
                     workbook.SaveToFile(character_directory + $"\\{Character.GetInstance().Name}.pdf", Spire.Xls.FileFormat.PDF);
-                    //package.SaveAs(character_directory + $"\\{Character.GetInstance().Name}" + ".pdf");
-
                 }
             }
             else
@@ -223,7 +221,7 @@ namespace Character_design
 
         private Save_character_excel()
         {
-            player_cards_directory = Directory.GetCurrentDirectory() + "\\Player_cards";
+            player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
             player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v2.xlsx";
         }
 
