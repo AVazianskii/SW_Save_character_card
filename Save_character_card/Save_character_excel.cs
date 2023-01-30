@@ -147,23 +147,28 @@ namespace Character_design
                     if (Character.GetInstance().Skills_with_points.Count > 0)
                     {
                         row_index = 5;
-                        foreach (Skill_Class skill in Character.GetInstance().Skills_with_points)
+                        foreach (All_skill_template skill in Character.GetInstance().Skills_with_points)
                         {
-                            if (row_index < 23)
+                            if (Character.GetInstance().Skills_with_points.IndexOf(skill) + 1 < 19)
                             {
                                 skill_coloumn_num = 19;
                                 skill_score_coloumn_num = 21;
                             }
-                            else
+                            else if (Character.GetInstance().Skills_with_points.IndexOf(skill) + 1 == 19)
                             {
                                 row_index = 5;
+                                skill_coloumn_num = 22;
+                                skill_score_coloumn_num = 23;
+                            }
+                            else
+                            {
                                 skill_coloumn_num = 22;
                                 skill_score_coloumn_num = 23;
                             }
                             Character_card.Cells[row_index, skill_coloumn_num].Value = skill.Name;
                             Character_card.Cells[row_index, skill_score_coloumn_num].Value = skill.Score;
                             row_index = (byte)(row_index + 1);
-                        }
+                        } 
                     }
 
                     // Заполняем поля навыков Силы
