@@ -66,7 +66,7 @@ namespace Character_design
                     Character_card.Cells[4, 4].Value = Character.GetInstance().Karma.ToString();
                     Character_card.Cells[5, 2].Value = Character.GetInstance().Range.Get_range_name();
                     Character_card.Cells[5, 4].Value = Character.GetInstance().Experience_left.ToString();
-                    Character_card.Cells[2, 16].Value = Character.GetInstance().Name;
+                    Character_card.Cells[2, 17].Value = Character.GetInstance().Name;
 
                     // Заполняем поля атрибутов
                     Character_card.Cells[09, 3].Value = Character.GetInstance().Strength.Get_atribute_score().ToString();
