@@ -147,7 +147,7 @@ namespace Character_design
                     if (Character.GetInstance().Skills_with_points.Count > 0)
                     {
                         row_index = 5;
-                        foreach (All_skill_template skill in Character.GetInstance().Skills_with_points)
+                        foreach (Skill_Class skill in Character.GetInstance().Skills_with_points)
                         {
                             if (Character.GetInstance().Skills_with_points.IndexOf(skill) + 1 < 19)
                             {
