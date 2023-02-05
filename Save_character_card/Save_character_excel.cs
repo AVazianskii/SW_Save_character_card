@@ -228,6 +228,7 @@ namespace Character_design
 
                     package.Save();
                     
+                    // Концертируем карточку из формата экселя в формат PDF
                     Workbook workbook = new Workbook();
                     workbook.LoadFromFile(character_file);
                     workbook.SaveToFile(character_directory + $"\\{Character.GetInstance().Name}.pdf", Spire.Xls.FileFormat.PDF);
