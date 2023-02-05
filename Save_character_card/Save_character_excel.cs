@@ -50,6 +50,17 @@ namespace Character_design
                     Directory.CreateDirectory(character_directory);
                 }
                 File.Copy(player_card_template, character_file, true);
+                // Копируем картинку персонажа в его папку
+                string extension = "";
+                if (Character.GetInstance().Img_path.Contains(".png"))
+                {
+                    extension = ".png";
+                }
+                else if (Character.GetInstance().Img_path.Contains(".jpg"))
+                {
+                    extension = ".jpg";
+                }
+                File.Copy(Character.GetInstance().Img_path, character_directory + $"\\{Character.GetInstance().Name}" + extension, true);
 
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -83,7 +94,7 @@ namespace Character_design
                     Character_picture.SetPosition(0, 0, 12, 0);
                     // Конвертируем размер ячеек Экселя из мм в пиксели (1 мм = 4 пикселя)
                     Character_picture.SetSize(Convert.ToInt32(52 * 4), Convert.ToInt32(65 * 4));
-
+                    
                     // Заполняем поля боевых параметров
                     foreach (Skill_Class skill in Character.GetInstance().Skills)
                     {
