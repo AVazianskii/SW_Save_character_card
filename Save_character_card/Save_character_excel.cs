@@ -78,6 +78,12 @@ namespace Character_design
                     Character_card.Cells[21, 3].Value = Character.GetInstance().Charm.Get_atribute_score().ToString();
                     Character_card.Cells[23, 3].Value = Character.GetInstance().Willpower.Get_atribute_score().ToString();
 
+                    // Загружаем картинку персонажа
+                    var Character_picture = Character_card.Drawings.AddPicture("Character_picture", Character.GetInstance().Img_path);
+                    Character_picture.SetPosition(0, 0, 12, 0);
+                    // Конвертируем размер ячеек Экселя из мм в пиксели (1 мм = 4 пикселя)
+                    Character_picture.SetSize(Convert.ToInt32(52 * 4), Convert.ToInt32(65 * 4));
+
                     // Заполняем поля боевых параметров
                     foreach (Skill_Class skill in Character.GetInstance().Skills)
                     {
