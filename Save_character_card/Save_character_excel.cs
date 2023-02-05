@@ -130,7 +130,14 @@ namespace Character_design
                     Character_card.Cells[15, 15].Value = Character.GetInstance().Force_resistance.ToString();
                     Character_card.Cells[17, 15].Value = Character.GetInstance().Hideness.ToString();
                     Character_card.Cells[19, 15].Value = Character.GetInstance().Watchfullness.ToString();
-                    Character_card.Cells[21, 15].Value = Character.GetInstance().Concentration.ToString();
+                    if (Character.GetInstance().Forceuser)
+                    {
+                        Character_card.Cells[21, 15].Value = Character.GetInstance().Concentration.ToString();
+                    }
+                    else
+                    {
+                        Character_card.Cells[21, 15].Value = 0;
+                    }
 
                     // Заполняем боевые формы
                     row_index = 41;
