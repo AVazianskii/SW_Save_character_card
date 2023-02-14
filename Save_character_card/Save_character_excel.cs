@@ -31,9 +31,8 @@ namespace Character_design
             }
             return Character_instance;
         }
-        public void Save_character_to_Excel_card (out string error_msg)
+        public void Save_character_to_Excel_card ()
         {
-            error_msg = "";
             character_directory = player_cards_directory + $"\\{Character.GetInstance().Name}";
             character_file = character_directory + $"\\{Character.GetInstance().Name}" + ".xlsx";
 
@@ -243,7 +242,8 @@ namespace Character_design
             }
             else
             {
-                error_msg = "Создание анкеты персонажа невозможно! Отсутствует шаблон анкеты.";
+                //error_msg = "Создание анкеты персонажа невозможно! Отсутствует шаблон анкеты.";
+                throw new Exception("Отсутствует шаблон карточки персонажа! Сохранение невозможно!");
             }
         }
 
