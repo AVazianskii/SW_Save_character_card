@@ -7,8 +7,8 @@
     <ProjectGuid>{0ACC554C-EC76-48F8-AEA1-7CD2AAA023FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Save_character_card</RootNamespace>
-    <AssemblyName>Save_character_card</AssemblyName>
+    <RootNamespace>Сharacter_card</RootNamespace>
+    <AssemblyName>Сharacter_card</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
