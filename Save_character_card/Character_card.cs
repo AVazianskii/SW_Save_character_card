@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -48,8 +49,6 @@ namespace Character_design
                     extension = ".jpg";
                 }
                 File.Copy(Character.GetInstance().Img_path, character_directory + $"\\{Character.GetInstance().Name}" + extension, true);
-
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
                 using (var package = new ExcelPackage(new FileInfo(character_file)))
                 {
@@ -238,12 +237,29 @@ namespace Character_design
 
         public void Edit_character_card_from_Excel (string character_card_path)
         {
-            
+            using (var package = new ExcelPackage(new FileInfo(character_card_path)))
+            {
+                ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
+
+                Character.GetInstance().Name = Character_card.Cells[2, 17].Value.ToString();
+
+                Character.GetInstance().Character_race = (Races_libs.Race_class)from race in Main_model.GetInstance().Race_Manager.Get_Race_list()
+                                                                                where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
+                                                                                select race;
+                //Character_card.Cells[2, 1].Value = Character.GetInstance().Name + ", " + Character.GetInstance().Sex;
+                //Character_card.Cells[3, 1].Value = Character.GetInstance().Character_race.Get_race_name();
+                //Character_card.Cells[4, 2].Value = Character.GetInstance().Age.ToString();
+                //Character_card.Cells[4, 4].Value = Character.GetInstance().Karma.ToString();
+                //Character_card.Cells[5, 2].Value = Character.GetInstance().Range.Get_range_name();
+                //Character_card.Cells[5, 4].Value = Character.GetInstance().Experience_left.ToString();
+            }
         }
 
 
         public Character_card()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
             player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v3.xlsx";
         }
