@@ -10,12 +10,8 @@ using SW_Character_creation;
 
 namespace Character_design
 {
-    public class Save_character_excel
+    public class Character_card
     {
-        private static Save_character_excel Character_instance;
-
-
-
         private string player_cards_directory,
                        player_card_template,
                        character_directory,
@@ -23,14 +19,6 @@ namespace Character_design
 
 
 
-        public static Save_character_excel GetInstance()
-        {
-            if (Character_instance == null)
-            {
-                Character_instance = new Save_character_excel();
-            }
-            return Character_instance;
-        }
         public void Save_character_to_Excel_card ()
         {
             character_directory = player_cards_directory + $"\\{Character.GetInstance().Name}";
@@ -249,7 +237,7 @@ namespace Character_design
 
 
 
-        private Save_character_excel()
+        public Character_card()
         {
             player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
             player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v3.xlsx";
