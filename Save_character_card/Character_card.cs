@@ -220,7 +220,8 @@ namespace Character_design
                         }
                     }
 
-                    package.Save();
+                    //package.Save();
+                    package.SaveAs(character_directory + $"\\{Character.GetInstance().Name}.character");
                     
                     // Концертируем карточку из формата экселя в формат PDF
                     Workbook workbook = new Workbook();
@@ -235,6 +236,10 @@ namespace Character_design
             }
         }
 
+        public void Edit_character_card_from_Excel (string character_card_path)
+        {
+            
+        }
 
 
         public Character_card()
