@@ -243,9 +243,11 @@ namespace Character_design
 
                 Character.GetInstance().Name = Character_card.Cells[2, 17].Value.ToString();
 
-                Character.GetInstance().Character_race = (Races_libs.Race_class)from race in Main_model.GetInstance().Race_Manager.Get_Race_list()
-                                                                                where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
-                                                                                select race;
+                var character_race = from race in Main_model.GetInstance().Race_Manager.Get_Race_list()
+                                     where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
+                                     select race;
+
+                Character.GetInstance().Character_race = character_race.First();
                 //Character_card.Cells[2, 1].Value = Character.GetInstance().Name + ", " + Character.GetInstance().Sex;
                 //Character_card.Cells[3, 1].Value = Character.GetInstance().Character_race.Get_race_name();
                 //Character_card.Cells[4, 2].Value = Character.GetInstance().Age.ToString();
