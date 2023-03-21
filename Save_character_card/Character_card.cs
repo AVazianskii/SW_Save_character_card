@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Xml.Serialization;
+using System.Threading.Tasks;
 using OfficeOpenXml;
 using Spire.Xls;
 using SW_Character_creation;
@@ -20,7 +22,62 @@ namespace Character_design
         private Character _character;
 
 
-        public void Save_character_to_Excel_card(Character character)
+        
+
+        public void Edit_character_card_from_Excel(string character_card_path, Character character, Main_model model)
+        {
+            this._character = character;
+            using (var package = new ExcelPackage(new FileInfo(character_card_path)))
+            {
+                ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
+
+                _character.Name = Character_card.Cells[2, 17].Value.ToString();
+
+                var character_race = from race in model.Race_Manager.Get_Race_list()
+                                     where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
+                                     select race;
+
+                _character.Character_race = character_race.First();
+                //Character_card.Cells[2, 1].Value = _character.Name + ", " + _character.Sex;
+                //Character_card.Cells[3, 1].Value = _character.Character_race.Get_race_name();
+                //Character_card.Cells[4, 2].Value = _character.Age.ToString();
+                //Character_card.Cells[4, 4].Value = _character.Karma.ToString();
+                //Character_card.Cells[5, 2].Value = _character.Range.Get_range_name();
+                //Character_card.Cells[5, 4].Value = _character.Experience_left.ToString();
+            }
+        }
+        public async Task Save_character_xmlAsync(Character character)
+        {
+            await Task.Run(() => Save_character_xml(character));
+        }
+        public async Task Save_character_to_Excel_cardAsync(Character character)
+        {
+            await Task.Run(() => Save_character_to_Excel_card(character));
+        }
+
+
+
+        public Character_card()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
+            player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v3.xlsx";
+        }
+
+
+
+        private void Save_character_xml(Character character)
+        {
+            _character = character;
+            XmlSerializer xml = new XmlSerializer(typeof(Character));
+
+            using (FileStream fs = new FileStream(player_cards_directory + $"\\{_character.Name}\\{_character.Name}.xml", FileMode.OpenOrCreate))
+            {
+                xml.Serialize(fs, _character);
+            }
+        }
+        private void Save_character_to_Excel_card(Character character)
         {
             this._character = character;
             character_directory = player_cards_directory + $"\\{_character.Name}";
@@ -228,52 +285,13 @@ namespace Character_design
                     workbook.LoadFromFile(character_file);
                     workbook.SaveToFile(character_directory + $"\\{_character.Name}.pdf", Spire.Xls.FileFormat.PDF);
                 }
-                File.Copy(character_directory + $"\\{_character.Name}.xlsx", character_directory + $"\\{_character.Name}.character");
+                File.Copy(character_directory + $"\\{_character.Name}.xlsx", character_directory + $"\\{_character.Name}.character",true);
             }
             else
             {
                 //error_msg = "Создание анкеты персонажа невозможно! Отсутствует шаблон анкеты.";
                 throw new Exception("Отсутствует шаблон карточки персонажа! Сохранение невозможно!");
             }
-        }
-
-        public void Edit_character_card_from_Excel(string character_card_path, Character character, Main_model model)
-        {
-            this._character = character;
-            using (var package = new ExcelPackage(new FileInfo(character_card_path)))
-            {
-                ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
-
-                _character.Name = Character_card.Cells[2, 17].Value.ToString();
-
-                var character_race = from race in model.Race_Manager.Get_Race_list()
-                                     where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
-                                     select race;
-
-                _character.Character_race = character_race.First();
-                //Character_card.Cells[2, 1].Value = _character.Name + ", " + _character.Sex;
-                //Character_card.Cells[3, 1].Value = _character.Character_race.Get_race_name();
-                //Character_card.Cells[4, 2].Value = _character.Age.ToString();
-                //Character_card.Cells[4, 4].Value = _character.Karma.ToString();
-                //Character_card.Cells[5, 2].Value = _character.Range.Get_range_name();
-                //Character_card.Cells[5, 4].Value = _character.Experience_left.ToString();
-            }
-        }
-
-
-        public Character_card()
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
-            player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v3.xlsx";
-        }
-
-
-
-        private void CheckExistCharacterCard()
-        {
-
         }
     }
 }
