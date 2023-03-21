@@ -67,7 +67,8 @@ namespace Character_design
 
 
 
-        private void Save_character_xml(Character character)
+        // временно сделан публичным
+        public void Save_character_xml(Character character)
         {
             _character = character;
             XmlSerializer xml = new XmlSerializer(typeof(Character));
@@ -75,9 +76,10 @@ namespace Character_design
             using (FileStream fs = new FileStream(player_cards_directory + $"\\{_character.Name}\\{_character.Name}.xml", FileMode.OpenOrCreate))
             {
                 xml.Serialize(fs, _character);
-            }
+            }            
         }
-        private void Save_character_to_Excel_card(Character character)
+        // временно сделан публичным
+        public void Save_character_to_Excel_card(Character character)
         {
             this._character = character;
             character_directory = player_cards_directory + $"\\{_character.Name}";
