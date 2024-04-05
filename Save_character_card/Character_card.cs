@@ -18,10 +18,12 @@ namespace Character_design
         private string player_cards_directory,
                        player_card_template,
                        character_directory,
-                       character_file;
+                       character_file,
+                       test;
         private Character _character;
 
 
+        public string Test { get; private set; }
         
 
         public void Edit_character_card_from_Excel(string character_card_path, Character character, Main_model model)
@@ -31,13 +33,40 @@ namespace Character_design
             {
                 ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
 
+                // Восстанавливаем имя персонажа
                 _character.Name = Character_card.Cells[2, 17].Value.ToString();
 
+                // Восстанавливаем расу персонажа
                 var character_race = from race in model.Race_Manager.Get_Race_list()
                                      where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
                                      select race;
 
                 _character.Character_race = character_race.First();
+
+                // Восстанавливаем ранг персонажа
+                var character_ranges = from range in model.Range_Manager.Ranges()
+                                        where range.Range_name == Character_card.Cells[5, 2].Value.ToString()
+                                        select range;
+                test = Character_card.Cells[5, 2].Value.ToString();
+
+                character.Range = character_ranges.First();
+
+                // Восстанавливаем возраст персонажа
+                _character.Age = Convert.ToInt32(Character_card.Cells[4, 2].Value);
+                /*  */
+
+                // Восстанавливаем карму персонажа
+                _character.Karma = Convert.ToInt32(Character_card.Cells[4, 4].Value);
+                /* Надо проверить на принадлежность к сторонам силы, если адепт Силы */
+
+                // Восстанавливаем остаток очков опыта персонажа
+                _character.Experience_left = Convert.ToInt32(Character_card.Cells[5, 4].Value);
+
+                /* Надо в шаблоне добавить остаток по очкам атрибутов */
+
+                // Восстанавливаем атрибуты персонажа
+                _character.Strength.Set_atr_score(Convert.ToInt32(Character_card.Cells[9, 3].Value));
+
                 //Character_card.Cells[2, 1].Value = _character.Name + ", " + _character.Sex;
                 //Character_card.Cells[3, 1].Value = _character.Character_race.Get_race_name();
                 //Character_card.Cells[4, 2].Value = _character.Age.ToString();
@@ -67,7 +96,8 @@ namespace Character_design
 
 
 
-        private void Save_character_xml(Character character)
+        // временно сделан публичным
+        public void Save_character_xml(Character character)
         {
             _character = character;
             XmlSerializer xml = new XmlSerializer(typeof(Character));
@@ -75,9 +105,10 @@ namespace Character_design
             using (FileStream fs = new FileStream(player_cards_directory + $"\\{_character.Name}\\{_character.Name}.xml", FileMode.OpenOrCreate))
             {
                 xml.Serialize(fs, _character);
-            }
+            }            
         }
-        private void Save_character_to_Excel_card(Character character)
+        // временно сделан публичным
+        public void Save_character_to_Excel_card(Character character)
         {
             this._character = character;
             character_directory = player_cards_directory + $"\\{_character.Name}";
