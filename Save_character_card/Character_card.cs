@@ -18,17 +18,16 @@ namespace Character_design
         private string player_cards_directory,
                        player_card_template,
                        character_directory,
-                       character_file,
-                       test;
+                       character_file;
+
         private Character _character;
-
-
-        public string Test { get; private set; }
+        private Main_model _model;
         
 
         public void Edit_character_card_from_Excel(string character_card_path, Character character, Main_model model)
         {
             this._character = character;
+            this._model = model;
             using (var package = new ExcelPackage(new FileInfo(character_card_path)))
             {
                 ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
@@ -47,13 +46,12 @@ namespace Character_design
                 var character_ranges = from range in model.Range_Manager.Ranges()
                                         where range.Range_name == Character_card.Cells[5, 2].Value.ToString()
                                         select range;
-                test = Character_card.Cells[5, 2].Value.ToString();
-
-                character.Range = character_ranges.First();
+                
+                _character.Range = character_ranges.First();
 
                 // Восстанавливаем возраст персонажа
                 _character.Age = Convert.ToInt32(Character_card.Cells[4, 2].Value);
-                /*  */
+                /* Надо проверить на возрастной статус */
 
                 // Восстанавливаем карму персонажа
                 _character.Karma = Convert.ToInt32(Character_card.Cells[4, 4].Value);
@@ -66,13 +64,25 @@ namespace Character_design
 
                 // Восстанавливаем атрибуты персонажа
                 _character.Strength.Set_atr_score(Convert.ToInt32(Character_card.Cells[9, 3].Value));
+                _character.Stamina.Set_atr_score(Convert.ToInt32(Character_card.Cells[11, 3].Value));
+                _character.Agility.Set_atr_score(Convert.ToInt32(Character_card.Cells[13, 3].Value));
+                _character.Quickness.Set_atr_score(Convert.ToInt32(Character_card.Cells[15, 3].Value));
+                _character.Intelligence.Set_atr_score(Convert.ToInt32(Character_card.Cells[17, 3].Value));
+                _character.Perception.Set_atr_score(Convert.ToInt32(Character_card.Cells[19, 3].Value));
+                _character.Charm.Set_atr_score(Convert.ToInt32(Character_card.Cells[21, 3].Value));
+                _character.Willpower.Set_atr_score(Convert.ToInt32(Character_card.Cells[23, 3].Value));
 
-                //Character_card.Cells[2, 1].Value = _character.Name + ", " + _character.Sex;
-                //Character_card.Cells[3, 1].Value = _character.Character_race.Get_race_name();
-                //Character_card.Cells[4, 2].Value = _character.Age.ToString();
-                //Character_card.Cells[4, 4].Value = _character.Karma.ToString();
-                //Character_card.Cells[5, 2].Value = _character.Range.Get_range_name();
-                //Character_card.Cells[5, 4].Value = _character.Experience_left.ToString();
+                // Восстанавливаем некоторые боевые навыки
+                Restore_combat_skill("Легкое оружие", Character_card.Cells[9, 5].Value);
+                Restore_combat_skill("Тяжелое оружие", Character_card.Cells[11, 5].Value);
+                Restore_combat_skill("Уклонение", Character_card.Cells[13, 5].Value);
+                Restore_combat_skill("Метание", Character_card.Cells[15, 5].Value);
+                Restore_combat_skill("Рукопашный бой", Character_card.Cells[9, 17].Value);
+                Restore_combat_skill("Фехтование световыми мечами", Character_card.Cells[9, 7].Value);
+                Restore_combat_skill("Фехтование", Character_card.Cells[11, 7].Value);
+                Restore_combat_skill("Акробатика", Character_card.Cells[13, 7].Value);
+                Restore_combat_skill("Снайперское оружие", Character_card.Cells[15, 7].Value);
+                Restore_combat_skill("Архаичное оружие", Character_card.Cells[17, 7].Value);
             }
         }
         public async Task Save_character_xmlAsync(Character character)
@@ -322,6 +332,30 @@ namespace Character_design
             {
                 //error_msg = "Создание анкеты персонажа невозможно! Отсутствует шаблон анкеты.";
                 throw new Exception("Отсутствует шаблон карточки персонажа! Сохранение невозможно!");
+            }
+        }
+
+        private void Restore_combat_skill (string skill_name, object skill_score)
+        {
+            foreach (Skill_Class skill in _model.Skill_Manager.Get_skills())
+            {
+                if (skill.Name == skill_name) 
+                {
+                    skill.Score = Convert.ToInt32(skill_score);
+                }
+            }
+            foreach (Skill_Class skill in _character.Skills)
+            {
+                if (skill.Name == skill_name)
+                {
+                    skill.Score = Convert.ToInt32(skill_score);
+
+                    if (skill.Score > 0)
+                    {
+                        _character.Skills_with_points.Add(skill);
+                        skill.Is_chosen = true;
+                    }
+                }
             }
         }
     }
