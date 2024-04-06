@@ -72,17 +72,24 @@ namespace Character_design
                 _character.Charm.Set_atr_score(Convert.ToInt32(Character_card.Cells[21, 3].Value));
                 _character.Willpower.Set_atr_score(Convert.ToInt32(Character_card.Cells[23, 3].Value));
 
-                // Восстанавливаем некоторые боевые навыки
-                Restore_combat_skill("Легкое оружие", Character_card.Cells[9, 5].Value);
-                Restore_combat_skill("Тяжелое оружие", Character_card.Cells[11, 5].Value);
-                Restore_combat_skill("Уклонение", Character_card.Cells[13, 5].Value);
-                Restore_combat_skill("Метание", Character_card.Cells[15, 5].Value);
-                Restore_combat_skill("Рукопашный бой", Character_card.Cells[9, 17].Value);
-                Restore_combat_skill("Фехтование световыми мечами", Character_card.Cells[9, 7].Value);
-                Restore_combat_skill("Фехтование", Character_card.Cells[11, 7].Value);
-                Restore_combat_skill("Акробатика", Character_card.Cells[13, 7].Value);
-                Restore_combat_skill("Снайперское оружие", Character_card.Cells[15, 7].Value);
-                Restore_combat_skill("Архаичное оружие", Character_card.Cells[17, 7].Value);
+                // Восстанавливаем боевые навыки
+                for (int i = 5; i < 23; i++)
+                {
+                    if (Character_card.Cells[i, 19].Value != null)
+                    {
+                        if (Character_card.Cells[i, 19].Value.ToString() != "")
+                        {
+                            Restore_skill(Character_card.Cells[i, 19].Value.ToString(), Character_card.Cells[i, 21].Value);
+                        }
+                    }
+                    if (Character_card.Cells[i, 22].Value != null)
+                    {
+                        if (Character_card.Cells[i, 22].Value.ToString() != "")
+                        {
+                            Restore_skill(Character_card.Cells[i, 22].Value.ToString(), Character_card.Cells[i, 23].Value);
+                        }
+                    }
+                }
             }
         }
         public async Task Save_character_xmlAsync(Character character)
@@ -335,13 +342,14 @@ namespace Character_design
             }
         }
 
-        private void Restore_combat_skill (string skill_name, object skill_score)
+        private void Restore_skill (string skill_name, object skill_score)
         {
-            foreach (Skill_Class skill in _model.Skill_Manager.Get_skills())
+            foreach (Skill_Class skill in _model.Skill_Manager._Skills)
             {
                 if (skill.Name == skill_name) 
                 {
                     skill.Score = Convert.ToInt32(skill_score);
+                    break;
                 }
             }
             foreach (Skill_Class skill in _character.Skills)
@@ -352,9 +360,10 @@ namespace Character_design
 
                     if (skill.Score > 0)
                     {
-                        _character.Skills_with_points.Add(skill);
+                        _character.Update_character_skills_list(skill);
                         skill.Is_chosen = true;
                     }
+                    break;
                 }
             }
         }
