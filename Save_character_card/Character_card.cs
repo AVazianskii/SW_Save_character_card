@@ -118,6 +118,20 @@ namespace Character_design
                         }
                     }
                 }
+
+                // Восстанавливаем пороги ранений и штрафы за них
+                _character.Scratch_lvl = Convert.ToByte(Character_card.Cells[10, 9].Value);
+                _character.Light_wound_lvl = Convert.ToByte(Character_card.Cells[11, 10].Value);
+                _character.Medium_wound_lvl = Convert.ToByte(Character_card.Cells[12, 11].Value);
+                _character.Tough_wound_lvl = Convert.ToByte(Character_card.Cells[13, 12].Value);
+                _character.Mortal_wound_lvl = Convert.ToByte(Character_card.Cells[14, 13].Value);
+
+                _character.Scratch_penalty = Convert.ToSByte(Character_card.Cells[19, 9].Value);
+                _character.Light_wound_penalty = Convert.ToSByte(Character_card.Cells[18, 10].Value);
+                _character.Medium_wound_penalty = Convert.ToSByte(Character_card.Cells[17, 11].Value);
+                _character.Tough_wound_penalty = Convert.ToSByte(Character_card.Cells[16, 12].Value);
+
+
             }
         }
         public async Task Save_character_xmlAsync(Character character)
