@@ -33,34 +33,48 @@ namespace Character_design
                 ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
 
                 // Восстанавливаем имя персонажа
-                _character.Name = Character_card.Cells[2, 17].Value.ToString();
+                _character.Name = Character_card.Cells[2, 2].Value.ToString();
 
                 // Восстанавливаем расу персонажа
                 var character_race = from race in model.Race_Manager.Get_Race_list()
-                                     where race.Race_name == Character_card.Cells[3, 1].Value.ToString()
+                                     where race.Race_name == Character_card.Cells[3, 2].Value.ToString()
                                      select race;
 
                 _character.Character_race = character_race.First();
 
                 // Восстанавливаем ранг персонажа
                 var character_ranges = from range in model.Range_Manager.Ranges()
-                                        where range.Range_name == Character_card.Cells[5, 2].Value.ToString()
+                                        where range.Range_name == Character_card.Cells[4, 2].Value.ToString()
                                         select range;
                 
                 _character.Range = character_ranges.First();
 
                 // Восстанавливаем возраст персонажа
-                _character.Age = Convert.ToInt32(Character_card.Cells[4, 2].Value);
-                /* Надо проверить на возрастной статус */
+                _character.Age = Convert.ToInt32(Character_card.Cells[3, 6].Value);
 
-                // Восстанавливаем карму персонажа
-                _character.Karma = Convert.ToInt32(Character_card.Cells[4, 4].Value);
-                /* Надо проверить на принадлежность к сторонам силы, если адепт Силы */
+                // Восстанавливаем возрастной статус
+                var character_age_status =  from age_status in model.Age_status_Manager.Age_Statuses()
+                                            where age_status.Age_status_name == Character_card.Cells[4, 6].Value.ToString()
+                                            select age_status;
+
+                _character.Age_status = character_age_status.First();
+
+                // Восстанавливаем карму персонажа и его отношение к Силе
+                _character.Karma = Convert.ToInt32(Character_card.Cells[5, 9].Value);
+                _character.Forceuser = Character_card.Cells[2, 9].Value.ToString() == "Адепт Силы";
+                _character.Is_jedi = Character_card.Cells[3, 9].Value.ToString() == "Светлая сторона";
+                _character.Is_sith = Character_card.Cells[3, 9].Value.ToString() == "Темная сторона";
+                _character.Is_neutral = Character_card.Cells[3, 9].Value.ToString() == "Нейтрал";
 
                 // Восстанавливаем остаток очков опыта персонажа
-                _character.Experience_left = Convert.ToInt32(Character_card.Cells[5, 4].Value);
+                _character.Experience_left = Convert.ToInt32(Character_card.Cells[5, 3].Value);
+                // Считаем, что оставшийся опыт персонажа, это весь доступный ему опыт при редактировании
+                _character.Experience = _character.Experience_left;
 
-                /* Надо в шаблоне добавить остаток по очкам атрибутов */
+                // Восстанавливаем остаток очков опыта персонажа
+                _character.Attributes_left = Convert.ToInt32(Character_card.Cells[5, 6].Value);
+                // Считаем, что оставшиеся очки атрибутов, это весь доступные ему очки атрибутов при редактировании
+                _character.Attributes = _character.Attributes_left;
 
                 // Восстанавливаем атрибуты персонажа
                 _character.Strength.Set_atr_score(Convert.ToInt32(Character_card.Cells[9, 3].Value));
@@ -108,7 +122,7 @@ namespace Character_design
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             player_cards_directory = Directory.GetCurrentDirectory() + "\\Карточки персонажей";
-            player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v3.xlsx";
+            player_card_template = Directory.GetCurrentDirectory() + "\\Player_card_template\\Template_v4.xlsx";
         }
 
 
@@ -163,12 +177,17 @@ namespace Character_design
                     byte skill_score_coloumn_num = 0;
                     // Заполняем поле общей информации о персонаже
                     ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
-                    Character_card.Cells[2, 1].Value = _character.Name + ", " + _character.Sex;
-                    Character_card.Cells[3, 1].Value = _character.Character_race.Get_race_name();
-                    Character_card.Cells[4, 2].Value = _character.Age.ToString();
-                    Character_card.Cells[4, 4].Value = _character.Karma.ToString();
-                    Character_card.Cells[5, 2].Value = _character.Range.Get_range_name();
-                    Character_card.Cells[5, 4].Value = _character.Experience_left.ToString();
+                    Character_card.Cells[2, 2].Value = _character.Name;
+                    Character_card.Cells[2, 6].Value = _character.Sex;
+                    Character_card.Cells[3, 2].Value = _character.Character_race.Get_race_name();
+                    Character_card.Cells[3, 6].Value = _character.Age.ToString();
+                    Character_card.Cells[4, 6].Value = _character.Age_status.Age_status_name;
+                    Character_card.Cells[5, 9].Value = _character.Karma.ToString();
+                    Character_card.Cells[4, 2].Value = _character.Range.Get_range_name();
+                    Character_card.Cells[5, 3].Value = _character.Experience_left.ToString();
+                    Character_card.Cells[5, 6].Value = _character.Attributes_left.ToString();
+                    Character_card.Cells[2, 9].Value = _character.Forceuser ? "Адепт Силы" : "Не адепт Силы";
+                    Character_card.Cells[3, 9].Value = _character.Is_jedi ? "Светлая сторона" : _character.Is_sith ? "Темная сторона" : "Нейтрал";
                     Character_card.Cells[2, 17].Value = _character.Name;
 
                     // Заполняем поля атрибутов
