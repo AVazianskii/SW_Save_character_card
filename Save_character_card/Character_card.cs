@@ -89,7 +89,7 @@ namespace Character_design
                 _character.Willpower.Set_atr_score(Convert.ToInt32(Character_card.Cells[23, 3].Value));
 
                 // Восстанавливаем боевые навыки
-                for (int i = 5; i < 23; i++)
+                for (byte i = 5; i < 23; i++)
                 {
                     if (Character_card.Cells[i, 19].Value != null)
                     {
@@ -103,6 +103,18 @@ namespace Character_design
                         if (Character_card.Cells[i, 22].Value.ToString() != "")
                         {
                             Restore_skill(Character_card.Cells[i, 22].Value.ToString(), Character_card.Cells[i, 23].Value);
+                        }
+                    }
+                }
+
+                // Восстанавливаем навыки Силы
+                for (byte i = 5; i < 23; i++)
+                {
+                    if (Character_card.Cells[i, 17].Value != null)
+                    {
+                        if (Character_card.Cells[i, 17].Value.ToString() != "")
+                        {
+                            Restore_force_skill(Character_card.Cells[i, 17].Value.ToString(), Character_card.Cells[i, 18].Value);
                         }
                     }
                 }
@@ -382,6 +394,31 @@ namespace Character_design
                     if (skill.Score > 0)
                     {
                         _character.Update_character_skills_list(skill);
+                        skill.Is_chosen = true;
+                    }
+                    break;
+                }
+            }
+        }
+        private void Restore_force_skill(string skill_name, object skill_score)
+        {
+            foreach (Force_skill_class skill in _model.Force_skill_Manager.Get_Force_Skills())
+            {
+                if (skill.Name == skill_name)
+                {
+                    skill.Score = Convert.ToInt32(skill_score);
+                    break;
+                }
+            }
+            foreach (Force_skill_class skill in _character.Get_force_skills())
+            {
+                if (skill.Name == skill_name)
+                {
+                    skill.Score = Convert.ToInt32(skill_score);
+
+                    if (skill.Score > 0)
+                    {
+                        _character.Update_character_force_skills_list(skill);
                         skill.Is_chosen = true;
                     }
                     break;
