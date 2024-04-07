@@ -131,7 +131,13 @@ namespace Character_design
                 _character.Medium_wound_penalty = Convert.ToSByte(Character_card.Cells[17, 11].Value);
                 _character.Tough_wound_penalty = Convert.ToSByte(Character_card.Cells[16, 12].Value);
 
-
+                // Восстанавливаем боевые параметры
+                _character.Reaction = Convert.ToByte(Character_card.Cells[11, 15].Value);
+                _character.Armor = Convert.ToByte(Character_card.Cells[13, 15].Value);
+                _character.Force_resistance = Convert.ToByte(Character_card.Cells[15, 15].Value);
+                _character.Hideness = Convert.ToByte(Character_card.Cells[17, 15].Value);
+                _character.Watchfullness = Convert.ToByte(Character_card.Cells[19, 15].Value);
+                _character.Concentration = Convert.ToByte(Character_card.Cells[21, 15].Value);
             }
         }
         public async Task Save_character_xmlAsync(Character character)
