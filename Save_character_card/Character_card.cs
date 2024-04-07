@@ -20,6 +20,8 @@ namespace Character_design
                        character_directory,
                        character_file;
 
+        private bool flag;
+
         private Character _character;
         private Main_model _model;
         
@@ -138,6 +140,69 @@ namespace Character_design
                 _character.Hideness = Convert.ToByte(Character_card.Cells[17, 15].Value);
                 _character.Watchfullness = Convert.ToByte(Character_card.Cells[19, 15].Value);
                 _character.Concentration = Convert.ToByte(Character_card.Cells[21, 15].Value);
+
+                // Восстанавливаем боевые умения
+                for (byte i = 41; i < 49; i++)
+                {
+                    flag = false;
+                    if (Character_card.Cells[i, 8].Value != null)
+                    {
+                        if (Character_card.Cells[i, 8].Value.ToString() != "")
+                        {
+                            foreach (Abilities_sequence_template sequence in _model.Combat_ability_Manager.Get_sequences())
+                            {
+                                if (sequence.Name == Character_card.Cells[i, 8].Value.ToString())
+                                {
+                                    flag = true;
+                                    sequence.Is_chosen = true;
+                                    sequence.Base_ability_lvl.Is_chosen = true;
+
+                                    _character.Update_character_combat_abilities_list(sequence.Base_ability_lvl);
+                                    _character.Update_character_combat_sequences_list(sequence);
+                                    
+                                    if (Character_card.Cells[i, 14].Value.ToString() == "Адепт")
+                                    {
+                                        sequence.Adept_ability_lvl.Is_chosen = true;
+                                        _character.Update_character_combat_abilities_list(sequence.Adept_ability_lvl);
+                                    }
+                                    if (Character_card.Cells[i, 14].Value.ToString() == "Мастер")
+                                    {
+                                        sequence.Master_ability_lvl.Is_chosen = true;
+                                        _character.Update_character_combat_abilities_list(sequence.Master_ability_lvl);
+                                    }
+                                    break;
+                                }
+                            }
+                            if (flag == false)
+                            {
+                                foreach (Abilities_sequence_template sequence in _model.Force_ability_Manager.Get_sequences())
+                                {
+                                    if (sequence.Name == Character_card.Cells[i, 8].Value.ToString())
+                                    {
+                                        flag = true;
+                                        sequence.Is_chosen = true;
+                                        sequence.Base_ability_lvl.Is_chosen = true;
+
+                                        _character.Update_character_force_abilities_list(sequence.Base_ability_lvl);
+                                        _character.Update_character_force_sequences_list(sequence);
+
+                                        if (Character_card.Cells[i, 14].Value.ToString() == "Адепт")
+                                        {
+                                            sequence.Adept_ability_lvl.Is_chosen = true;
+                                            _character.Update_character_force_abilities_list(sequence.Adept_ability_lvl);
+                                        }
+                                        if (Character_card.Cells[i, 14].Value.ToString() == "Мастер")
+                                        {
+                                            sequence.Master_ability_lvl.Is_chosen = true;
+                                            _character.Update_character_force_abilities_list(sequence.Master_ability_lvl);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         public async Task Save_character_xmlAsync(Character character)
