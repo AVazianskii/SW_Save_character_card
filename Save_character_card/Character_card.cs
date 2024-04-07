@@ -64,7 +64,9 @@ namespace Character_design
                 _character.Forceuser = Character_card.Cells[2, 9].Value.ToString() == "Адепт Силы";
                 _character.Is_jedi = Character_card.Cells[3, 9].Value.ToString() == "Светлая сторона";
                 _character.Is_sith = Character_card.Cells[3, 9].Value.ToString() == "Темная сторона";
-                _character.Is_neutral = Character_card.Cells[3, 9].Value.ToString() == "Нейтрал";
+                _character.Is_neutral = Character_card.Cells[3, 9].Value.ToString() == "Светлая сторона"    ||
+                                        Character_card.Cells[3, 9].Value.ToString() == "Темная сторона"     ||
+                                        Character_card.Cells[3, 9].Value.ToString() == "Нейтрал";
 
                 // Восстанавливаем остаток очков опыта персонажа
                 _character.Experience_left = Convert.ToInt32(Character_card.Cells[5, 3].Value);
