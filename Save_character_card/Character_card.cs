@@ -216,6 +216,44 @@ namespace Character_design
                         }
                     }
                 }
+
+                // Восстанавливаем особенности персонажа
+                for (byte i = 26; i < 34; i++)
+                {
+                    if (Character_card.Cells[i, 17].Value != null)
+                    {
+                        if (Character_card.Cells[i, 17].Value.ToString() != "")
+                        {
+                            foreach (All_feature_template feature in _character.Positive_features)
+                            {
+                                if (feature.Name == Character_card.Cells[i, 17].Value.ToString())
+                                {
+                                    feature.Is_chosen = true;
+                                    _character.Limit_positive_features_left = _character.Limit_positive_features_left - 1;
+                                    _character.Update_character_positive_feature_list(feature);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (Character_card.Cells[i, 20].Value != null)
+                    {
+                        if (Character_card.Cells[i, 20].Value.ToString() != "")
+                        {
+                            foreach (All_feature_template feature in _character.Negative_features)
+                            {
+                                if (feature.Name == Character_card.Cells[i, 20].Value.ToString())
+                                {
+                                    feature.Is_chosen = true;
+                                    _character.Limit_negative_features_left = _character.Limit_negative_features_left - 1;
+                                    _character.Update_character_negative_feature_list(feature);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
         public async Task Save_character_xmlAsync(Character character)
