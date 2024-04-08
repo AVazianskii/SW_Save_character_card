@@ -156,6 +156,9 @@ namespace Character_design
                                     flag = true;
                                     sequence.Is_chosen = true;
                                     sequence.Base_ability_lvl.Is_chosen = true;
+                                    sequence.Base_ability_lvl.Is_enable = true;
+                                    sequence.Adept_ability_lvl.Is_enable = true;
+                                    //sequence.Check_enable_state();
 
                                     _character.Update_character_combat_abilities_list(sequence.Base_ability_lvl);
                                     _character.Update_character_combat_sequences_list(sequence);
@@ -163,13 +166,17 @@ namespace Character_design
                                     if (Character_card.Cells[i, 14].Value.ToString() == "Адепт")
                                     {
                                         sequence.Adept_ability_lvl.Is_chosen = true;
+                                        sequence.Master_ability_lvl.Is_enable = true;
                                         _character.Update_character_combat_abilities_list(sequence.Adept_ability_lvl);
                                     }
                                     if (Character_card.Cells[i, 14].Value.ToString() == "Мастер")
                                     {
+                                        sequence.Adept_ability_lvl.Is_chosen = true;
                                         sequence.Master_ability_lvl.Is_chosen = true;
+                                        sequence.Master_ability_lvl.Is_enable = true;
                                         _character.Update_character_combat_abilities_list(sequence.Master_ability_lvl);
                                     }
+                                    sequence.Level = Character_card.Cells[i, 14].Value.ToString();
                                     break;
                                 }
                             }
@@ -182,6 +189,8 @@ namespace Character_design
                                         flag = true;
                                         sequence.Is_chosen = true;
                                         sequence.Base_ability_lvl.Is_chosen = true;
+                                        sequence.Base_ability_lvl.Is_enable = true;
+                                        sequence.Adept_ability_lvl.Is_enable = true;
 
                                         _character.Update_character_force_abilities_list(sequence.Base_ability_lvl);
                                         _character.Update_character_force_sequences_list(sequence);
@@ -189,13 +198,17 @@ namespace Character_design
                                         if (Character_card.Cells[i, 14].Value.ToString() == "Адепт")
                                         {
                                             sequence.Adept_ability_lvl.Is_chosen = true;
+                                            sequence.Master_ability_lvl.Is_enable = true;
                                             _character.Update_character_force_abilities_list(sequence.Adept_ability_lvl);
                                         }
                                         if (Character_card.Cells[i, 14].Value.ToString() == "Мастер")
                                         {
+                                            sequence.Adept_ability_lvl.Is_chosen = true;
                                             sequence.Master_ability_lvl.Is_chosen = true;
+                                            sequence.Master_ability_lvl.Is_enable = true;
                                             _character.Update_character_force_abilities_list(sequence.Master_ability_lvl);
                                         }
+                                        sequence.Level = Character_card.Cells[i, 14].Value.ToString();
                                         break;
                                     }
                                 }
