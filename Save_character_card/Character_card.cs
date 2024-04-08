@@ -43,6 +43,7 @@ namespace Character_design
                                      select race;
 
                 _character.Character_race = character_race.First();
+                _character.Character_race.Is_chosen = true;
 
                 // Восстанавливаем ранг персонажа
                 var character_ranges = from range in model.Range_Manager.Ranges()
