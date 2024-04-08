@@ -229,7 +229,8 @@ namespace Character_design
                                 if (feature.Name == Character_card.Cells[i, 17].Value.ToString())
                                 {
                                     feature.Is_chosen = true;
-                                    _model.Feature_Manager.Get_positive_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
+                                    feature.Is_bought_for_ftr = true;
+                                    _model.Feature_Manager.Get_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
                                     _character.Limit_positive_features_left = _character.Limit_positive_features_left - 1;
                                     _character.Update_character_positive_feature_list(feature);
                                     break;
@@ -246,7 +247,8 @@ namespace Character_design
                                 if (feature.Name == Character_card.Cells[i, 20].Value.ToString())
                                 {
                                     feature.Is_chosen = true;
-                                    _model.Feature_Manager.Get_negative_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
+                                    feature.Is_bought_for_ftr = true;
+                                    _model.Feature_Manager.Get_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
                                     _character.Limit_negative_features_left = _character.Limit_negative_features_left - 1;
                                     _character.Update_character_negative_feature_list(feature);
                                     break;
