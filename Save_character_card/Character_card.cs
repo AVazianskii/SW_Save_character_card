@@ -220,6 +220,7 @@ namespace Character_design
                 // Восстанавливаем особенности персонажа
                 for (byte i = 26; i < 34; i++)
                 {
+                    // Положительные особенности
                     if (Character_card.Cells[i, 17].Value != null)
                     {
                         if (Character_card.Cells[i, 17].Value.ToString() != "")
@@ -238,6 +239,7 @@ namespace Character_design
                             }
                         }
                     }
+                    // Отрицательные особенности
                     if (Character_card.Cells[i, 20].Value != null)
                     {
                         if (Character_card.Cells[i, 20].Value.ToString() != "")
