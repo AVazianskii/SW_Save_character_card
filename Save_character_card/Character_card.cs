@@ -244,7 +244,7 @@ namespace Character_design
                                     feature.Is_bought_for_ftr = true;
                                     _model.Feature_Manager.Get_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
                                     _character.Limit_positive_features_left = _character.Limit_positive_features_left - 1;
-                                    _character.Positive_features_points_left = _character.Positive_features_points_left - Convert.ToInt32(feature.Cost);
+                                    //_character.Positive_features_points_left = _character.Positive_features_points_left - Convert.ToInt32(feature.Cost);
                                     _character.Update_character_positive_feature_list(feature);
                                     break;
                                 }
@@ -264,7 +264,7 @@ namespace Character_design
                                     feature.Is_bought_for_ftr = true;
                                     _model.Feature_Manager.Get_features()[feature.ID - 1].Is_chosen = true; // добавляем указание для корректного отображения на экране
                                     _character.Limit_negative_features_left = _character.Limit_negative_features_left - 1;
-                                    _character.Negative_features_points_left = _character.Negative_features_points_left - Convert.ToInt32(feature.Cost);
+                                    //_character.Negative_features_points_left = _character.Negative_features_points_left - Convert.ToInt32(feature.Cost);
                                     _character.Update_character_negative_feature_list(feature);
                                     break;
                                 }
