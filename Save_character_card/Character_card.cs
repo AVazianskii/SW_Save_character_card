@@ -33,9 +33,19 @@ namespace Character_design
             using (var package = new ExcelPackage(new FileInfo(character_card_path)))
             {
                 ExcelWorksheet Character_card = package.Workbook.Worksheets[0];
-
+                
                 // Восстанавливаем имя персонажа
                 _character.Name = Character_card.Cells[2, 2].Value.ToString();
+
+                // Восстанавливаем изображение персонажа
+                if (File.Exists(character_card_path.Replace("xlsx", "jpg")))
+                {
+                    _character.Img_path = character_card_path.Replace("xlsx", "jpg");
+                }
+                else if (File.Exists(character_card_path.Replace("xlsx", "png")))
+                {
+                    _character.Img_path = character_card_path.Replace("xlsx", "png");
+                }
 
                 // Восстанавливаем расу персонажа
                 var character_race = from race in model.Race_Manager.Get_Race_list()
