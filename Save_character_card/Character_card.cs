@@ -38,13 +38,13 @@ namespace Character_design
                 _character.Name = Character_card.Cells[2, 2].Value.ToString();
 
                 // Восстанавливаем изображение персонажа
-                if (File.Exists(character_card_path.Replace("xlsx", "jpg")))
+                if (File.Exists(character_card_path.Replace("character", "jpg")))
                 {
-                    _character.Img_path = character_card_path.Replace("xlsx", "jpg");
+                    _character.Img_path = character_card_path.Replace("character", "jpg");
                 }
-                else if (File.Exists(character_card_path.Replace("xlsx", "png")))
+                else if (File.Exists(character_card_path.Replace("character", "png")))
                 {
-                    _character.Img_path = character_card_path.Replace("xlsx", "png");
+                    _character.Img_path = character_card_path.Replace("character", "png");
                 }
 
                 // Восстанавливаем расу персонажа
